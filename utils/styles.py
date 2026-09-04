@@ -187,16 +187,27 @@ p, li, span, div { line-height: 1.65; }
 .btn-secondary:hover { border-color: var(--accent-2); color: var(--accent-2); }
 
 /* ---------- Cards / glass ---------- */
+/* Cards sit in a shared perspective plane so the hover-tilt below reads as
+   genuine 3D rotation rather than a flat scale/shadow trick. */
+[data-testid="column"] { perspective: 1000px; }
+
 .glass-card {
     background: linear-gradient(180deg, var(--surface) 0%, rgba(19,27,46,0.6) 100%);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.4rem 1.5rem;
     backdrop-filter: blur(6px);
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+    transition: border-color 0.15s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.35s ease;
     height: 100%;
 }
-.glass-card:hover { border-color: rgba(232,163,61,0.4); }
+.glass-card:hover {
+    border-color: rgba(232,163,61,0.4);
+    transform: perspective(1000px) rotateX(4deg) rotateY(-5deg) translateZ(6px) translateY(-3px);
+    box-shadow: 0 22px 40px -18px rgba(0,0,0,0.55), 0 0 0 1px rgba(232,163,61,0.15);
+}
 
 /* ---------- Skills ---------- */
 .skill-category-title {
